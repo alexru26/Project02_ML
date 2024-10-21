@@ -24,17 +24,17 @@ def load_model(model_type):
             lstm_hidden_size=512 # define lstm hidden size
         )
 
-        model = RecurrentPPO(
+        res_model = RecurrentPPO( # ChatGPT helped me fine tune the model
             policy="MultiInputLstmPolicy", # policy for environment
             env=env, # environment
             policy_kwargs=policy_kwargs, # arguments defined above
-            ent_coef=0.02, #
-            n_steps=2048, #
-            batch_size=128, #
+            ent_coef=0.02, # determines how much model wants to explore
+            n_steps=2048, # number of steps model takes before updating
+            batch_size=128, # size of mini-batches during training
             gamma=0.99, # discount factor (dictates long-term vs short-term benefits)
-            gae_lambda=0.95, #
+            gae_lambda=0.95, # determines bias vs tradeoff (try to prevent overfitting)
             learning_rate=3e-4, # how fast it learns/changes
-            clip_range=0.2, #
+            clip_range=0.2, # prevents big changes in policy
             verbose=0 # don't log anything
         )
     elif model_type == 'load':
@@ -42,13 +42,13 @@ def load_model(model_type):
         while True: # choose model to load
             name = input('Model name: ')
             if os.path.isfile('../models/'+name+'.zip'):
-                model = RecurrentPPO.load('../models/'+name, env=env)
+                res_model = RecurrentPPO.load('../models/'+name, env=env)
                 break
     else:
         # if model_type is not valid
         raise Exception('Invalid model type input')
 
-    return model
+    return res_model
 
 def learn(timesteps, name, eval_freq, verbose):
     """
@@ -98,7 +98,7 @@ def evaluate(episodes):
 
 if __name__ == '__main__':
     model = load_model(model_type='load')
-    print('Start training!\n')
+    #print('Start training!\n')
     # for i in range(10):
     #     learn(timesteps=1e5, name='aiv2', eval_freq=2e4, verbose=1)
     #     evaluate(episodes=100)
