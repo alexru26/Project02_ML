@@ -33,6 +33,10 @@ Run main.py to play against the AI.
 - Model returns integer, which represents move
 - Model is applied to pygame
 
+<img width="630" alt="Screenshot 2024-10-21 at 4 21 41 PM" src="https://github.com/user-attachments/assets/87911534-39aa-4f6d-8c44-3a3874691cc8">
+
+*Image 1. Model parameters.*
+
 ## Reasoning and Issues
 - 0th attempt: DQN model
   - Training time is quick, but improving slowly
